@@ -1,6 +1,6 @@
 
-import com.mycompany.ca1.ChatServer;
-import com.mycompany.ca1.MyClient;
+import server.ChatServer;
+import client.MyClient;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;

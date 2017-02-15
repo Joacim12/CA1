@@ -1,4 +1,4 @@
-package com.mycompany.ca1;
+package client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,8 +36,7 @@ public class MyClient extends Observable{
             Logger.getLogger(MyClient.class.getName()).log(Level.SEVERE, null, ex);
         }
         PrintWriter writer = new PrintWriter(output, true);
-        writer.println(message);
-        System.out.println("hallo");
+        writer.println(message);        
     }
 
     public String readMessage() throws IOException {

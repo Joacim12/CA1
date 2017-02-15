@@ -1,4 +1,4 @@
-package com.mycompany.ca1;
+package server;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -11,12 +11,13 @@ public class ChatServer {
 
     private boolean running = true;
     public static List<ClientConnection> clients;
-    
-    
-    public ChatServer(){
-        clients = new ArrayList();    
-     
+    private static PrintWriter writer;    
+
+    public ChatServer() {
+        clients = new ArrayList();
+
     }
+
     public void setClientConnection() {
         try (ServerSocket socket = new ServerSocket(8081)) {
             while (running) {
@@ -24,32 +25,37 @@ public class ChatServer {
                 client.start();
             }
         } catch (IOException e) {
+            System.out.println("en exception");
         }
     }
-    
+
     public static void sendCommandToAll(String newUser, String command) throws IOException {
         for (ClientConnection client : clients) {
             OutputStream output = client.socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(output);
+            writer = new PrintWriter(output);
             writer.println(command + "#" + newUser);
-            writer.flush();
+            writer.flush();            
         }
     }
-    
+
     public static void sendMsgToAll(String message, String sender) throws IOException {
         for (ClientConnection client : clients) {
             OutputStream output = client.socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(output);
+            writer = new PrintWriter(output);
             writer.println("MSG#" + sender + "#" + message);
-            writer.flush();
+            writer.flush();           
+            if (writer.checkError()) {
+                sendCommandToAll(client.username, "DELETE");
+                clients.remove(client);
+            }
         }
     }
-    
+
     public static void sendMsgToUser(String message, String reciever, String sender) throws IOException {
         for (ClientConnection client : clients) {
-            if(client.username.equals(reciever)) {
+            if (client.username.equals(reciever)) {
                 OutputStream output = client.socket.getOutputStream();
-                PrintWriter writer = new PrintWriter(output);
+                writer = new PrintWriter(output);
                 writer.println("MSG#" + sender + "#" + message);
                 writer.flush();
             }
