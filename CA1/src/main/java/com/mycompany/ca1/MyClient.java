@@ -1,5 +1,6 @@
 package com.mycompany.ca1;
 
+import com.sun.xml.internal.ws.resources.SenderMessages;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,13 +28,15 @@ public class MyClient {
     public static void main(String[] args) throws IOException, InterruptedException {
         MyClient client = new MyClient(host, port);
         client.open();
+        
         String message = client.readMessage();
         System.out.println(message);
     }
 
-    public void open() throws IOException {
+    public void open() throws IOException, InterruptedException {
         clientSocket = new Socket();
         clientSocket.connect(new InetSocketAddress(host, port));
+        
     }
 
     public void sendMessage(String message) throws IOException, InterruptedException {
