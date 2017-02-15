@@ -334,8 +334,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        msg = (String) arg;
-        System.out.println(msg);
+        msg = (String) arg;       
         String msgArr[] = msg.split("#");
         switch (msgArr[0].toLowerCase()) {
             case "msg":

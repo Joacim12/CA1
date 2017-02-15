@@ -14,7 +14,7 @@ import org.junit.Test;
  *
  * @author zaeemshafiq
  */
-public class TestServer implements Observer {
+public class TestServer  {
 
     
     public TestServer() {
@@ -22,10 +22,10 @@ public class TestServer implements Observer {
 
     @BeforeClass
     public static void setUpClass() {
-        new Thread(() -> {
-            ChatServer cs = new ChatServer();
-            cs.setClientConnection();
-        }).start();
+//        new Thread(() -> {
+//            ChatServer cs = new ChatServer();
+//            cs.setClientConnection();
+//        }).start();
 
        // client = new MyClient("localhost", 8081);
         //client.start();
@@ -54,26 +54,26 @@ public class TestServer implements Observer {
 //        assertEquals("OK#Lars", line);
 //    }
  
-    @Test
-    public void testMSGToOne() throws InterruptedException, IOException {
-    MyClient client = new MyClient("localhost",8081);
-        client.addObserver(this);
-                client.open();
-                client.readMessage();
-  
-        MyClient sender = new MyClient("localhost",8081);
-        sender.open();
-        sender.sendMessage("hej");
-        
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        String msg = (String) arg;
-        System.out.println(msg);
-        switch(msg){
-           
-        }
-    }
+//    @Test
+//    public void testMSGToOne() throws InterruptedException, IOException {
+//    MyClient client = new MyClient("localhost",8081);
+//        client.addObserver(this);
+//                client.open();
+//                client.readMessage();
+//  
+//        MyClient sender = new MyClient("localhost",8081);
+//        sender.open();
+//        sender.sendMessage("hej");
+//        
+//    }
+//
+//    @Override
+//    public void update(Observable o, Object arg) {
+//        String msg = (String) arg;
+//        System.out.println(msg);
+//        switch(msg){
+//           
+//        }
+//    }
 
 }

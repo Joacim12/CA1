@@ -1,7 +1,0 @@
-#surefire
-#Wed Feb 15 14:28:43 CET 2017
-maven.ext.class.path=/Applications/NetBeans/NetBeans 8.2.app/Contents/Resources/NetBeans/java/maven-nblib/netbeans-eventspy.jar
-user.dir=/Users/zaeemshafiq/CA1/CA1
-localRepository=/Users/zaeemshafiq/.m2/repository
-basedir=/Users/zaeemshafiq/CA1/CA1
-test=TestServer
