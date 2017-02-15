@@ -8,8 +8,11 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class MyClient {
+public class MyClient extends Observable{
 
     private String host;
     private int port;
@@ -25,16 +28,26 @@ public class MyClient {
         clientSocket.connect(new InetSocketAddress(host, port));
     }
 
-    public void sendMessage(String message) throws IOException, InterruptedException {
-        OutputStream output = clientSocket.getOutputStream();
+    public void sendMessage(String message) {
+        OutputStream output = null;
+        try {
+            output = clientSocket.getOutputStream();
+        } catch (IOException ex) {
+            Logger.getLogger(MyClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
         PrintWriter writer = new PrintWriter(output, true);
         writer.println(message);
+        System.out.println("hallo");
     }
 
     public String readMessage() throws IOException {
         InputStream input = clientSocket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        String line = reader.readLine();
+        String line;
+        while((line = reader.readLine()) != null){
+            setChanged();
+            notifyObservers(line);
+        }
         return line;
 
     }

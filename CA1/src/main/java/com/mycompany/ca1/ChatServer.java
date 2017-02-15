@@ -17,7 +17,6 @@ public class ChatServer {
         clients = new ArrayList();    
      
     }
-  
 
     public void setClientConnection() {
         try (ServerSocket socket = new ServerSocket(8081)) {
@@ -57,7 +56,6 @@ public class ChatServer {
             }
         }
     }
-    
 
     public void setRunning(boolean running) {
         this.running = running;

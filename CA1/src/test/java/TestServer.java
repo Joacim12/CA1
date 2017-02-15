@@ -2,9 +2,11 @@
 import com.mycompany.ca1.ChatServer;
 import com.mycompany.ca1.MyClient;
 import java.io.IOException;
-import org.junit.AfterClass;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static org.junit.Assert.assertEquals;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -12,8 +14,9 @@ import org.junit.Test;
  *
  * @author zaeemshafiq
  */
-public class TestServer {
+public class TestServer implements Observer {
 
+    
     public TestServer() {
     }
 
@@ -23,6 +26,15 @@ public class TestServer {
             ChatServer cs = new ChatServer();
             cs.setClientConnection();
         }).start();
+
+       // client = new MyClient("localhost", 8081);
+        //client.start();
+        
+        //client2 = new MyClient("localhost", 8081);
+        //client2.start();
+        
+       // client3 = new MyClient("localhost", 8081);
+        //client3.start();
     }
 
 //    @Before
@@ -32,49 +44,36 @@ public class TestServer {
 //            cs.setClientConnection();
 //        }).start();
 //    }
-
     
+//    @Test
+//    public void testLogin() throws InterruptedException, IOException {
+//        MyClient client = new MyClient("localhost",8081);
+//        client.open();
+//        client.sendMessage("LOGIN#Lars");
+//        String line = client.readMessage();
+//        assertEquals("OK#Lars", line);
+//    }
+ 
     @Test
-    public void testLogin() throws  InterruptedException, IOException {
-        MyClient mc = new MyClient("localhost", 8081);
-        mc.open();
-        mc.sendMessage("LOGIN#Tom");
-        String line = mc.readMessage();
+    public void testMSGToOne() throws InterruptedException, IOException {
+    MyClient client = new MyClient("localhost",8081);
+        client.addObserver(this);
+                client.open();
+                client.readMessage();
+  
+        MyClient sender = new MyClient("localhost",8081);
+        sender.open();
+        sender.sendMessage("hej");
         
-        assertEquals("OK#Tom", line);
-    }
-    
-    @Test
-    public void testMSGToOne() throws  InterruptedException, IOException {
-        MyClient mc = new MyClient("localhost", 8081);
-        mc.open();
-        mc.sendMessage("LOGIN#Tim");
-        String line = mc.readMessage();
-        
-        assertEquals("OK#Kim7", line);
     }
 
-//     @Test
-//     public void testMSGToOne() throws IOException {
-//        Socket socket = new Socket();
-//
-//        socket.connect(new InetSocketAddress("vetterlain.dk", 8081));
-//        OutputStream os = socket.getOutputStream();
-//        PrintWriter out = new PrintWriter(os);
-//        
-//        out.println("LOGIN#Tom");
-//        out.println("LOGIN#Tim");
-//        
-//        out.println("MSG#Tom#Hey!");
-//        out.flush();
-//        
-//        InputStream is = socket.getInputStream();
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-//        
-//        String line = reader.readLine();
-//        
-//         System.out.println(line);
-//        
-//         assertEquals("OK#Tom", line);
-//     }
+    @Override
+    public void update(Observable o, Object arg) {
+        String msg = (String) arg;
+        System.out.println(msg);
+        switch(msg){
+           
+        }
+    }
+
 }
