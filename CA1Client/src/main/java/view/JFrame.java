@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -15,7 +16,8 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     String msg = "";
     Boolean first = true;
     List<String> clients;
-
+    DefaultListModel<String> model;
+    String userSelected = "ALL";
     /**
      * Creates new form JFrame
      */
@@ -23,6 +25,8 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         initComponents();
         jTabbedPane1.remove(jPanel2);
         clients = new ArrayList();
+        clients.add("Skriv til alle");
+        model = new DefaultListModel<>();
     }
 
     /**
@@ -45,8 +49,9 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         jTextAreaChat = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
         jTextFieldMessage = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextAreaUsers = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jUserList = new javax.swing.JList<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -86,7 +91,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -110,9 +115,19 @@ public class JFrame extends javax.swing.JFrame implements Observer {
             }
         });
 
-        jTextAreaUsers.setColumns(20);
-        jTextAreaUsers.setRows(5);
-        jScrollPane2.setViewportView(jTextAreaUsers);
+        jUserList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jUserList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jUserListMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jUserList);
+
+        jLabel2.setText("Users - Click on user to chat");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -123,19 +138,26 @@ public class JFrame extends javax.swing.JFrame implements Observer {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
                     .addComponent(jTextFieldMessage))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
+                    .addComponent(jScrollPane3))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldMessage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -170,13 +192,20 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        control.sendMessage("MSG#ALL#" + jTextFieldMessage.getText());
+        if(userSelected.equals("Skriv til alle")) {
+            userSelected = "ALL";
+        }
+        control.sendMessage("MSG#" + userSelected + "#" + jTextFieldMessage.getText());
         jTextFieldMessage.setText(null);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextFieldMessageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldMessageMouseClicked
         jTextFieldMessage.setText("");
     }//GEN-LAST:event_jTextFieldMessageMouseClicked
+
+    private void jUserListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jUserListMouseClicked
+        userSelected = clients.get(jUserList.getSelectedIndex());
+    }//GEN-LAST:event_jUserListMouseClicked
 
     /**
      * @param args the command line arguments
@@ -216,16 +245,17 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelError;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelError;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextAreaChat;
-    private javax.swing.JTextArea jTextAreaUsers;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextFieldMessage;
+    private javax.swing.JList<String> jUserList;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -244,13 +274,15 @@ public class JFrame extends javax.swing.JFrame implements Observer {
                     clients.add(msgArr[i]);
                 }
                 clients.forEach((client) -> {
-                    jTextAreaUsers.append(client + "\n");
+                    model.addElement(client);
                 });
+                jUserList.setModel(model);
                 break;
             case "update":
                 if (!first) {
-                    jTextAreaUsers.append(msgArr[1] + "\n");
                     clients.add(msgArr[1]);
+                    model.addElement(msgArr[1]);
+                    jUserList.setModel(model);
                 }
                 first = false;
                 break;
@@ -259,10 +291,8 @@ public class JFrame extends javax.swing.JFrame implements Observer {
                 break;
             case "delete":
                 clients.remove(msgArr[1]);
-                jTextAreaUsers.setText("");
-                for (String string : clients) {
-                    jTextAreaUsers.append(string + "\n");
-                }
+                model.removeElement(msgArr[1]);
+                jUserList.setModel(model);
                 break;
         }
     }
