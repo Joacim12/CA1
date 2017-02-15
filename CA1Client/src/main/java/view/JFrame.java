@@ -216,7 +216,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
     private void jTextFieldMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldMessageKeyPressed
          if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if ((jTextFieldMessage != null) || (!jTextFieldMessage.getText().equals(""))) {
+            if ((jTextFieldMessage != null) && (!jTextFieldMessage.getText().equals(""))) {
                 if (userSelected.equals("Skriv til alle")) {
                     userSelected = "ALL";
                 }
@@ -243,7 +243,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_jTextField1KeyPressed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if ((jTextFieldMessage != null) || (!jTextFieldMessage.getText().equals(""))) {
+        if ((jTextFieldMessage != null) && (!jTextFieldMessage.getText().equals(""))) {
             if (userSelected.equals("Skriv til alle")) {
                 userSelected = "ALL";
             }
