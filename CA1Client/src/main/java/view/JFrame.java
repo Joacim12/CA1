@@ -104,6 +104,11 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         });
 
         jTextFieldMessage.setText("Write something");
+        jTextFieldMessage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextFieldMessageMouseClicked(evt);
+            }
+        });
 
         jTextAreaUsers.setColumns(20);
         jTextAreaUsers.setRows(5);
@@ -168,6 +173,10 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         control.sendMessage("MSG#ALL#" + jTextFieldMessage.getText());
         jTextFieldMessage.setText(null);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextFieldMessageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldMessageMouseClicked
+        jTextFieldMessage.setText("");
+    }//GEN-LAST:event_jTextFieldMessageMouseClicked
 
     /**
      * @param args the command line arguments
