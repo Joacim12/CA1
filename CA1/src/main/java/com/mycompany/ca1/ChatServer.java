@@ -11,16 +11,13 @@ public class ChatServer {
 
     private boolean running = true;
     public static List<ClientConnection> clients;
-    public static List<String> chatMsg;
+    
     
     public ChatServer(){
         clients = new ArrayList();    
-        chatMsg = new ArrayList();
+     
     }
-    
-    public static void main(String[] args) {
-        new ChatServer().setClientConnection();
-    }
+  
 
     public void setClientConnection() {
         try (ServerSocket socket = new ServerSocket(8081)) {

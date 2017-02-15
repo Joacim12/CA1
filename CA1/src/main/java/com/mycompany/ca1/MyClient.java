@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,8 +17,8 @@ import java.net.Socket;
  */
 public class MyClient {
 
-    private static String host;
-    private static int port;
+    private String host;
+    private int port;
     private Socket clientSocket;
 
     public MyClient(String host, int port) {
@@ -24,16 +26,14 @@ public class MyClient {
         this.port = port;
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        MyClient client = new MyClient(host, port);
-        client.open();
-        String message = client.readMessage();
-        System.out.println(message);
-    }
-
+    
     public void open() throws IOException {
-        clientSocket = new Socket();
-        clientSocket.connect(new InetSocketAddress(host, port));
+        
+         
+        
+            clientSocket = new Socket();
+            clientSocket.connect(new InetSocketAddress(host, port));
+    
     }
 
     public void sendMessage(String message) throws IOException, InterruptedException {
@@ -45,13 +45,8 @@ public class MyClient {
     public String readMessage() throws IOException {
         InputStream input = clientSocket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if(line.equals("MSG#ALL#testover")) {
-                break;
-            }
-            System.out.println(line);
-        }
+        String line = reader.readLine();
         return line;
+
     }
 }
