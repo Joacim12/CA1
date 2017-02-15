@@ -50,12 +50,12 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaChat = new javax.swing.JTextArea();
-        jButton2 = new javax.swing.JButton();
         jTextFieldMessage = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         jUserList = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
         jLabelLoginAs = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -113,13 +113,6 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         jTextAreaChat.setRows(5);
         jScrollPane1.setViewportView(jTextAreaChat);
 
-        jButton2.setText("Send");
-        jButton2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jButton2KeyPressed(evt);
-            }
-        });
-
         jTextFieldMessage.setText("Write something");
         jTextFieldMessage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -146,6 +139,13 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
         jLabel2.setText("Users - Click on user to chat");
 
+        jButton2.setText("Send");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -156,15 +156,11 @@ public class JFrame extends javax.swing.JFrame implements Observer {
                     .addComponent(jLabelLoginAs)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                     .addComponent(jTextFieldMessage))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2)
+                    .addComponent(jScrollPane3)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
                 .addGap(19, 19, 19))
         );
         jPanel2Layout.setVerticalGroup(
@@ -218,21 +214,6 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         jTextFieldMessage.setText("");
     }//GEN-LAST:event_jTextFieldMessageMouseClicked
 
-    private void jButton2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton2KeyPressed
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (userSelected.equals("Skriv til alle")) {
-                userSelected = "ALL";
-            }
-            String msgPrivate = "";
-            if (!userSelected.equals("ALL")) {
-                msgPrivate = " [Private: " + userSelected + "]";
-            }
-            jTextAreaChat.append(username + msgPrivate + " : " + jTextFieldMessage.getText() + "\n");
-            control.sendMessage("MSG#" + userSelected + "#" + jTextFieldMessage.getText());
-            jTextFieldMessage.setText(null);
-        }
-    }//GEN-LAST:event_jButton2KeyPressed
-
     private void jTextFieldMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldMessageKeyPressed
          if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (userSelected.equals("Skriv til alle")) {
@@ -258,6 +239,19 @@ public class JFrame extends javax.swing.JFrame implements Observer {
             control.login(jTextField1.getText());
         }
     }//GEN-LAST:event_jTextField1KeyPressed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (userSelected.equals("Skriv til alle")) {
+            userSelected = "ALL";
+        }
+        String msgPrivate = "";
+        if (!userSelected.equals("ALL")) {
+            msgPrivate = " [Private: " + userSelected + "]";
+        }
+        jTextAreaChat.append(username + msgPrivate + ": " + jTextFieldMessage.getText() + "\n");
+        control.sendMessage("MSG#" + userSelected + "#" + jTextFieldMessage.getText());
+        jTextFieldMessage.setText(null);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
