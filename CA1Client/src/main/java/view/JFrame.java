@@ -179,7 +179,11 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        control.sendMessage("MSG#ALL#" + jTextFieldMessage.getText());
+        String command = "ALL";
+        if(jUserList.getSelectedValue() != null) {
+            command = clients.get(jUserList.getSelectedIndex());
+        }
+        control.sendMessage("MSG#" + command + "#" + jTextFieldMessage.getText());
         jTextFieldMessage.setText(null);
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -260,6 +264,8 @@ public class JFrame extends javax.swing.JFrame implements Observer {
             case "update":
                 if (!first) {
                     clients.add(msgArr[1]);
+                    model.addElement(msgArr[1]);
+                    jUserList.setModel(model);
                 }
                 first = false;
                 break;
