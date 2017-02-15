@@ -88,15 +88,5 @@ class ClientConnection extends Thread {
             ChatServer.sendMsgToUser(reader.split("#")[2], reader.split("#")[1], username);
         }
         
-    }
-    
-    private void printAllMsg() throws IOException {
-        OutputStream output = socket.getOutputStream();
-        PrintWriter writer = new PrintWriter(output);
-        for (String s : ChatServer.chatMsg) {
-            writer.println(s);
-        }
-        writer.flush();
-
-    }
+    }  
 }
