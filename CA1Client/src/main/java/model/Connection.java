@@ -11,14 +11,10 @@ import java.util.logging.Logger;
  * @author joaci
  */
 public class Connection  {
-
-    private final String host;
-    private final int port;
+  
     private Socket clientSocket;
 
-    public Connection(String host, int port)  {
-        this.host = host;
-        this.port = port;
+    public Connection(String host, int port)  {      
         clientSocket = new Socket();
         try {
             clientSocket.connect(new InetSocketAddress(host, port));
@@ -30,5 +26,4 @@ public class Connection  {
     public Socket getSocket() {
         return clientSocket;
     }
-
 }

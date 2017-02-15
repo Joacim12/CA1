@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Connection;
 
 
@@ -26,25 +28,32 @@ public class Controller extends Observable {
         clientSocket = con.getSocket();
     }
 
-    public void doSomething() throws IOException {
-        sendMessage("LOGIN#joacim");
-        sendMessage("MSG#joacim#HEJ");
-        readMessage();
+    public void login(String username)  {
+        sendMessage("LOGIN#"+username);        
     }
 
-    public void sendMessage(String message) throws IOException {
-        OutputStream output = clientSocket.getOutputStream();
+    public void sendMessage(String message) {
+        OutputStream output = null;
+        try {
+            output = clientSocket.getOutputStream();
+        } catch (IOException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
         PrintWriter writer = new PrintWriter(output, true);
         writer.println(message);
     }
 
-    public void readMessage() throws IOException {
-        InputStream input = clientSocket.getInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            setChanged();
-            notifyObservers(line);
+    public void readMessage()  {
+        try {
+            InputStream input = clientSocket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                setChanged();
+                notifyObservers(line);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
