@@ -8,13 +8,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author joaci
- */
 public class MyClient {
 
     private String host;
@@ -26,14 +20,9 @@ public class MyClient {
         this.port = port;
     }
 
-    
     public void open() throws IOException {
-        
-         
-        
-            clientSocket = new Socket();
-            clientSocket.connect(new InetSocketAddress(host, port));
-    
+        clientSocket = new Socket();
+        clientSocket.connect(new InetSocketAddress(host, port));
     }
 
     public void sendMessage(String message) throws IOException, InterruptedException {
