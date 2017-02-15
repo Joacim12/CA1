@@ -216,16 +216,18 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
     private void jTextFieldMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldMessageKeyPressed
          if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (userSelected.equals("Skriv til alle")) {
-                userSelected = "ALL";
+            if ((jTextFieldMessage != null) || (!jTextFieldMessage.getText().equals(""))) {
+                if (userSelected.equals("Skriv til alle")) {
+                    userSelected = "ALL";
+                }
+                String msgPrivate = "";
+                if (!userSelected.equals("ALL")) {
+                    msgPrivate = " [Private: " + userSelected + "]";
+                }
+                jTextAreaChat.append(username + msgPrivate + ": " + jTextFieldMessage.getText() + "\n");
+                control.sendMessage("MSG#" + userSelected + "#" + jTextFieldMessage.getText());
+                jTextFieldMessage.setText(null);
             }
-            String msgPrivate = "";
-            if (!userSelected.equals("ALL")) {
-                msgPrivate = " [Private: " + userSelected + "]";
-            }
-            jTextAreaChat.append(username + msgPrivate + ": " + jTextFieldMessage.getText() + "\n");
-            control.sendMessage("MSG#" + userSelected + "#" + jTextFieldMessage.getText());
-            jTextFieldMessage.setText(null);
         }
     }//GEN-LAST:event_jTextFieldMessageKeyPressed
 
@@ -241,16 +243,18 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_jTextField1KeyPressed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (userSelected.equals("Skriv til alle")) {
-            userSelected = "ALL";
+        if ((jTextFieldMessage != null) || (!jTextFieldMessage.getText().equals(""))) {
+            if (userSelected.equals("Skriv til alle")) {
+                userSelected = "ALL";
+            }
+            String msgPrivate = "";
+            if (!userSelected.equals("ALL")) {
+                msgPrivate = " [Private: " + userSelected + "]";
+            }
+            jTextAreaChat.append(username + msgPrivate + ": " + jTextFieldMessage.getText() + "\n");
+            control.sendMessage("MSG#" + userSelected + "#" + jTextFieldMessage.getText());
+            jTextFieldMessage.setText(null);
         }
-        String msgPrivate = "";
-        if (!userSelected.equals("ALL")) {
-            msgPrivate = " [Private: " + userSelected + "]";
-        }
-        jTextAreaChat.append(username + msgPrivate + ": " + jTextFieldMessage.getText() + "\n");
-        control.sendMessage("MSG#" + userSelected + "#" + jTextFieldMessage.getText());
-        jTextFieldMessage.setText(null);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
