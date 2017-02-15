@@ -81,8 +81,10 @@ class ClientConnection extends Thread {
 
     private void messageCase(String reader) throws IOException {
         if(reader.split("#")[1].toLowerCase().equals("all")) {
+            System.out.println(reader);
             ChatServer.sendMsgToAll(reader.split("#")[2], username);
         } else {
+            System.out.println(reader);
             ChatServer.sendMsgToUser(reader.split("#")[2], reader.split("#")[1], username);
         }
         

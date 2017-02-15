@@ -2,6 +2,7 @@ package view;
 
 import control.Controller;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -10,10 +11,10 @@ import java.util.Observer;
  * @author joaci
  */
 public class JFrame extends javax.swing.JFrame implements Observer {
-    
+
     String msg = "";
     Boolean first = true;
-    ArrayList<String> clients = new ArrayList();  
+    List<String> clients;
 
     /**
      * Creates new form JFrame
@@ -21,6 +22,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     public JFrame() {
         initComponents();
         jTabbedPane1.remove(jPanel2);
+        clients = new ArrayList();
     }
 
     /**
@@ -102,6 +104,11 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         });
 
         jTextFieldMessage.setText("Write something");
+        jTextFieldMessage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextFieldMessageMouseClicked(evt);
+            }
+        });
 
         jTextAreaUsers.setColumns(20);
         jTextAreaUsers.setRows(5);
@@ -156,7 +163,6 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         control.addObserver(this);
         Thread t = new Thread(() -> {
-            
             control.readMessage();
         });
         t.start();
@@ -167,6 +173,10 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         control.sendMessage("MSG#ALL#" + jTextFieldMessage.getText());
         jTextFieldMessage.setText(null);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextFieldMessageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldMessageMouseClicked
+        jTextFieldMessage.setText("");
+    }//GEN-LAST:event_jTextFieldMessageMouseClicked
 
     /**
      * @param args the command line arguments
@@ -199,7 +209,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         java.awt.EventQueue.invokeLater(() -> {
             new JFrame().setVisible(true);
         });
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -219,8 +229,8 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void update(Observable o, Object arg) {              
-        msg = (String) arg;  
+    public void update(Observable o, Object arg) {
+        msg = (String) arg;
         System.out.println(msg);
         String msgArr[] = msg.split("#");
         switch (msgArr[0].toLowerCase()) {
@@ -229,36 +239,31 @@ public class JFrame extends javax.swing.JFrame implements Observer {
                 break;
             case "ok":
                 jTabbedPane1.remove(jPanelError);
-                jTabbedPane1.add(jPanel2);  
+                jTabbedPane1.add(jPanel2);
                 for (int i = 1; i < msgArr.length; i++) {
-                    clients.add(msgArr[i]);               
-                }                
+                    clients.add(msgArr[i]);
+                }
                 clients.forEach((client) -> {
                     jTextAreaUsers.append(client + "\n");
-                });                                
+                });
                 break;
             case "update":
-                if(!first){
-                jTextAreaUsers.append(msgArr[1] + "\n");
-                } 
+                if (!first) {
+                    jTextAreaUsers.append(msgArr[1] + "\n");
+                    clients.add(msgArr[1]);
+                }
                 first = false;
                 break;
             case "fail":
                 jLabelError.setText("Something went wrong");
                 break;
-            case "delete":                       
-                System.out.println(clients.size());
+            case "delete":
                 clients.remove(msgArr[1]);
-                System.out.println(clients.size());
                 jTextAreaUsers.setText("");
                 for (String string : clients) {
                     jTextAreaUsers.append(string + "\n");
                 }
-                
-               break;
-            
+                break;
         }
-        
     }
-    
 }
