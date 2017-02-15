@@ -2,6 +2,7 @@ package view;
 
 import control.Controller;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,7 +14,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     
     String msg = "";
     Boolean first = true;
-    ArrayList<String> clients = new ArrayList();  
+    List<String> clients; 
 
     /**
      * Creates new form JFrame
@@ -21,6 +22,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     public JFrame() {
         initComponents();
         jTabbedPane1.remove(jPanel2);
+        clients = new ArrayList();
     }
 
     /**
@@ -155,10 +157,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     Controller control = new Controller();
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         control.addObserver(this);
-        Thread t = new Thread(() -> {
-            
-            control.readMessage();
-        });
+        Thread t = new Thread(() -> {control.readMessage();});
         t.start();
         control.login(jTextField1.getText());
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -246,19 +245,13 @@ public class JFrame extends javax.swing.JFrame implements Observer {
             case "fail":
                 jLabelError.setText("Something went wrong");
                 break;
-            case "delete":                       
-                System.out.println(clients.size());
-                clients.remove(msgArr[1]);
-                System.out.println(clients.size());
+            case "delete":                  
+                clients.remove(msgArr[1]);                
                 jTextAreaUsers.setText("");
                 for (String string : clients) {
                     jTextAreaUsers.append(string + "\n");
-                }
-                
-               break;
-            
-        }
-        
-    }
-    
+                }                
+               break;            
+        }        
+    }    
 }
