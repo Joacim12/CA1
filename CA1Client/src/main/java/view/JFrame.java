@@ -17,6 +17,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     Boolean first = true;
     List<String> clients;
     DefaultListModel<String> model;
+    String userSelected = "ALL";
     /**
      * Creates new form JFrame
      */
@@ -24,6 +25,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         initComponents();
         jTabbedPane1.remove(jPanel2);
         clients = new ArrayList();
+        clients.add("Skriv til alle");
         model = new DefaultListModel<>();
     }
 
@@ -49,6 +51,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         jTextFieldMessage = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         jUserList = new javax.swing.JList<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -88,7 +91,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -117,7 +120,14 @@ public class JFrame extends javax.swing.JFrame implements Observer {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        jUserList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jUserListMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jUserList);
+
+        jLabel2.setText("Users - Click on user to chat");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -135,13 +145,16 @@ public class JFrame extends javax.swing.JFrame implements Observer {
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
                     .addComponent(jScrollPane3))
@@ -179,17 +192,20 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String command = "ALL";
-        if(jUserList.getSelectedValue() != null) {
-            command = clients.get(jUserList.getSelectedIndex());
+        if(userSelected.equals("Skriv til alle")) {
+            userSelected = "ALL";
         }
-        control.sendMessage("MSG#" + command + "#" + jTextFieldMessage.getText());
+        control.sendMessage("MSG#" + userSelected + "#" + jTextFieldMessage.getText());
         jTextFieldMessage.setText(null);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextFieldMessageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldMessageMouseClicked
         jTextFieldMessage.setText("");
     }//GEN-LAST:event_jTextFieldMessageMouseClicked
+
+    private void jUserListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jUserListMouseClicked
+        userSelected = clients.get(jUserList.getSelectedIndex());
+    }//GEN-LAST:event_jUserListMouseClicked
 
     /**
      * @param args the command line arguments
@@ -229,6 +245,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelError;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelError;
