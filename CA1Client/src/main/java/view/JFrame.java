@@ -69,6 +69,12 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
         jLabel1.setText("Username");
 
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelErrorLayout = new javax.swing.GroupLayout(jPanelError);
         jPanelError.setLayout(jPanelErrorLayout);
         jPanelErrorLayout.setHorizontalGroup(
@@ -236,11 +242,22 @@ public class JFrame extends javax.swing.JFrame implements Observer {
             if (!userSelected.equals("ALL")) {
                 msgPrivate = " [Private: " + userSelected + "]";
             }
-            jTextAreaChat.append(username + msgPrivate + " : " + jTextFieldMessage.getText() + "\n");
+            jTextAreaChat.append(username + msgPrivate + ": " + jTextFieldMessage.getText() + "\n");
             control.sendMessage("MSG#" + userSelected + "#" + jTextFieldMessage.getText());
             jTextFieldMessage.setText(null);
         }
     }//GEN-LAST:event_jTextFieldMessageKeyPressed
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            control.addObserver(this);
+            Thread t = new Thread(() -> {
+                control.readMessage();
+            });
+            t.start();
+            control.login(jTextField1.getText());
+        }
+    }//GEN-LAST:event_jTextField1KeyPressed
 
     /**
      * @param args the command line arguments
