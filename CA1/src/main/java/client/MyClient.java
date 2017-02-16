@@ -8,40 +8,30 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.Observable;
 
-public class MyClient extends Observable {
+public class MyClient {
 
-    private String host;
-    private int port;
-    private Socket clientSocket;
+    private final Socket CLIENTSOCKET;
 
     public MyClient(String host, int port) {
-        this.host = host;
-        this.port = port;
+        CLIENTSOCKET = new Socket();
+        try {
+            CLIENTSOCKET.connect(new InetSocketAddress(host, port));
+        } catch (IOException ex) {
+            System.out.println("exception!");
+        }
     }
 
-    public void open() throws IOException {
-        clientSocket = new Socket();
-        clientSocket.connect(new InetSocketAddress(host, port));
-    }
-
-    public void sendMessage(String message) throws IOException {
-        OutputStream output = clientSocket.getOutputStream();
+    public void sendMessage(String message) throws IOException, InterruptedException {
+        OutputStream output = CLIENTSOCKET.getOutputStream();
         PrintWriter writer = new PrintWriter(output, true);
         writer.println(message);
+        System.out.println(message);
     }
 
     public String readMessage() throws IOException {
-        InputStream input = clientSocket.getInputStream();
+        InputStream input = CLIENTSOCKET.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        String line = null;
-        if ((line = reader.readLine()) != null) {
-//            setChanged();
-//            notifyObservers(line);
-//            return line;
-        }
-        return line;
-
+        return reader.readLine();
     }
 }
