@@ -1,4 +1,4 @@
-package com.mycompany.ca1;
+package server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,14 +7,16 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import static server.ChatServer.clients;
+import static server.ChatServer.sendCommandToAll;
 
 class ClientConnection extends Thread {
 
-    Socket socket = new Socket();
-    String username;
-    InputStream input;
-    OutputStream output;
-    PrintWriter writer;
+    public Socket socket = new Socket();
+    public String username;
+    private InputStream input;
+    private OutputStream output;
+    private PrintWriter writer;
 
     public ClientConnection(Socket socket) throws IOException {
         output = socket.getOutputStream();
@@ -25,38 +27,39 @@ class ClientConnection extends Thread {
 
     @Override
     public void run() {
+        handleConnection();
+    }
+
+    public synchronized void handleConnection() {
         try {
-            handleConnection();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            String readBuffer;
+            while ((readBuffer = reader.readLine()) != null) {
+                switch (readBuffer.split("#")[0].toLowerCase()) {
+                    case "login":
+                        loginCase(readBuffer);
+                        break;
+                    case "msg":
+                        messageCase(readBuffer);
+                        break;
+                    default:
+                        System.out.println(readBuffer);
+                        break;
+                }
+            }
         } catch (IOException ex) {
             try {
-                ChatServer.sendCommandToAll(username, "DELETE");
+                sendCommandToAll(username, "DELETE");
+                ex.printStackTrace();
             } catch (IOException ex1) {
+                ex.printStackTrace();
             }
-            ChatServer.clients.remove(this);
+            clients.remove(this);
         }
     }
 
-    public void handleConnection() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        String readBuffer;
-        
-        while((readBuffer = reader.readLine()) != null) {
-            switch (readBuffer.split("#")[0].toLowerCase()) {
-                case "login":
-                    loginCase(readBuffer);
-                    break;
-                case "msg":
-                    messageCase(readBuffer);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    private void loginCase(String reader) throws IOException {
+    private synchronized void loginCase(String reader) throws IOException {
         username = reader.split("#")[1];
-
         int counter = 0;
         for (ClientConnection cc : ChatServer.clients) {
             if (!cc.username.equals(username)) {
@@ -72,6 +75,7 @@ class ClientConnection extends Thread {
             writer.println(respond);
             writer.flush();
             ChatServer.sendCommandToAll(username, "UPDATE");
+
         } else {
             String respond = "FAIL";
             writer.println(respond);
@@ -79,14 +83,12 @@ class ClientConnection extends Thread {
         }
     }
 
-    private void messageCase(String reader) throws IOException {
-        if(reader.split("#")[1].toLowerCase().equals("all")) {
-            System.out.println(reader);
+    private synchronized void messageCase(String reader) throws IOException {
+        if (reader.split("#")[1].toLowerCase().equals("all")) {
             ChatServer.sendMsgToAll(reader.split("#")[2], username);
         } else {
-            System.out.println(reader);
             ChatServer.sendMsgToUser(reader.split("#")[2], reader.split("#")[1], username);
         }
-        
-    }  
+    }
+
 }

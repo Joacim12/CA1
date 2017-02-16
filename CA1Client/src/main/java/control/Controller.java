@@ -1,59 +1,38 @@
 package control;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Observable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Connection;
-
+import model.MessageHandler;
 
 /**
  *
  * @author joacim
  */
-public class Controller extends Observable {
+public class Controller   {
 
-    Connection con;
-    Socket clientSocket;
-   
+    private final Connection CONNECTION;
+    private final Socket CLIENTSOCKET;
+    private final MessageHandler MESSAGEHANDLER; 
 
-    public Controller() {
-        con = new Connection("vetterlain.dk", 8081);
-        clientSocket = con.getSocket();
+    public Controller(String host, int port) {
+        CONNECTION = new Connection(host, port);
+        CLIENTSOCKET = CONNECTION.getSocket();
+        MESSAGEHANDLER = new MessageHandler(CLIENTSOCKET);     
     }
 
     public void login(String username)  {
-        sendMessage("LOGIN#"+username);        
+        MESSAGEHANDLER.login(username);
     }
 
     public void sendMessage(String message) {
-        OutputStream output = null;
-        try {
-            output = clientSocket.getOutputStream();
-        } catch (IOException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        PrintWriter writer = new PrintWriter(output, true);
-        writer.println(message);
+        MESSAGEHANDLER.sendMessage(message);
     }
 
     public void readMessage()  {
-        try {
-            InputStream input = clientSocket.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                setChanged();
-                notifyObservers(line);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        MESSAGEHANDLER.readMessage();
     }
+    
+    public MessageHandler getMessageHandler(){
+        return MESSAGEHANDLER;
+    }  
 }

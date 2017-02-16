@@ -1,4 +1,4 @@
-package com.mycompany.ca1;
+package client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,8 +8,9 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Observable;
 
-public class MyClient {
+public class MyClient extends Observable {
 
     private String host;
     private int port;
@@ -25,7 +26,7 @@ public class MyClient {
         clientSocket.connect(new InetSocketAddress(host, port));
     }
 
-    public void sendMessage(String message) throws IOException, InterruptedException {
+    public void sendMessage(String message) throws IOException {
         OutputStream output = clientSocket.getOutputStream();
         PrintWriter writer = new PrintWriter(output, true);
         writer.println(message);
@@ -34,7 +35,12 @@ public class MyClient {
     public String readMessage() throws IOException {
         InputStream input = clientSocket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        String line = reader.readLine();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            setChanged();
+            notifyObservers(line);
+            return line;
+        }
         return line;
 
     }

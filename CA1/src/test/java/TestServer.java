@@ -1,10 +1,8 @@
 
-import com.mycompany.ca1.ChatServer;
-import com.mycompany.ca1.MyClient;
+import server.ChatServer;
+import client.MyClient;
 import java.io.IOException;
-import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -25,56 +23,67 @@ public class TestServer {
         }).start();
     }
 
-//    @Before
-//    public void setUp()  {
-//        new Thread(() -> {
-//            ChatServer cs = new ChatServer();
-//            cs.setClientConnection();
-//        }).start();
-//    }
-
-    
     @Test
-    public void testLogin() throws  InterruptedException, IOException {
-        MyClient mc = new MyClient("localhost", 8081);
-        mc.open();
-        mc.sendMessage("LOGIN#Tom");
-        String line = mc.readMessage();
-        
-        assertEquals("OK#Tom", line);
-    }
-    
-    @Test
-    public void testMSGToOne() throws  InterruptedException, IOException {
-        MyClient mc = new MyClient("localhost", 8081);
-        mc.open();
-        mc.sendMessage("LOGIN#Tim");
-        String line = mc.readMessage();
-        
-        assertEquals("OK#Kim7", line);
+    public void testLogin() throws InterruptedException, IOException {
+        MyClient client = new MyClient("localhost", 8081);
+        client.open();
+        client.sendMessage("LOGIN#Lars");
+        String msg = client.readMessage();
+               System.out.println(msg);
+        assertEquals("OK#Lars", msg);
     }
 
-//     @Test
-//     public void testMSGToOne() throws IOException {
-//        Socket socket = new Socket();
+    @Test
+    public void testMSGToOne() throws InterruptedException, IOException {
+        MyClient sender = new MyClient("localhost", 8081);
+        sender.open();
+
+        MyClient reciever = new MyClient("localhost", 8081);
+        reciever.open();
+        
+        sender.sendMessage("LOGIN#Ole");
+        reciever.sendMessage("LOGIN#Peter");
+        sender.sendMessage("MSG#Peter#Hej Peter");
+        System.out.println(reciever.readMessage());
+        System.out.println(reciever.readMessage());
+        System.out.println("1");
+        String msg = "hej";
+        if(reciever.readMessage() != null) {
+            System.out.println("123");
+         msg= reciever.readMessage();
+            System.out.println(msg);
+        }
+        System.out.println(msg);
+        
+        assertEquals("MSG#Ole#Hej Peter", msg);
+    }
+    
+//    @Test
+//    public void testMSGToAll() throws InterruptedException, IOException {
+//        MyClient sender = new MyClient("localhost", 8081);
+//        sender.open();
 //
-//        socket.connect(new InetSocketAddress("vetterlain.dk", 8081));
-//        OutputStream os = socket.getOutputStream();
-//        PrintWriter out = new PrintWriter(os);
+//        MyClient reciever = new MyClient("localhost", 8081);
+//        reciever.open();
 //        
-//        out.println("LOGIN#Tom");
-//        out.println("LOGIN#Tim");
+//        MyClient reciever2 = new MyClient("localhost", 8081);
+//        reciever2.open();
 //        
-//        out.println("MSG#Tom#Hey!");
-//        out.flush();
+//        sender.sendMessage("LOGIN#Klaus");
+//        reciever.sendMessage("LOGIN#Tulle");
+//        reciever2.sendMessage("LOGIN#Sam");
 //        
-//        InputStream is = socket.getInputStream();
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+//        sender.sendMessage("MSG#ALL#Hej allesammen");
 //        
-//        String line = reader.readLine();
+//        reciever.readMessage();
+//        reciever.readMessage();
+//        reciever2.readMessage();
+//        reciever2.readMessage(); 
 //        
-//         System.out.println(line);
+//        String msg = reciever.readMessage();
+//        String msg2 = reciever.readMessage();
 //        
-//         assertEquals("OK#Tom", line);
-//     }
+//        assertEquals("MSG#Klaus#Hej allesammen", msg);
+//        assertEquals("MSG#Klaus#Hej allsammen", msg2);
+//    }
 }
