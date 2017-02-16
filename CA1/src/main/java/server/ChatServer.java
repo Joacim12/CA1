@@ -1,5 +1,6 @@
 package server;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -29,7 +30,7 @@ public class ChatServer {
 
     public static void sendCommandToAll(String newUser, String command) throws IOException {
         for (ClientConnection client : clients) {
-            OutputStream output = client.socket.getOutputStream();
+            OutputStream output = client.socket.getOutputStream();            
             writer = new PrintWriter(output);
             writer.println(command + "#" + newUser);
             writer.flush();
@@ -38,8 +39,7 @@ public class ChatServer {
 
     public static void sendMsgToAll(String message, String sender) throws IOException {            
         for (ClientConnection client : clients) {   
-            OutputStream output = client.socket.getOutputStream();
-            System.out.println(message);
+            OutputStream output = client.socket.getOutputStream();           
             writer = new PrintWriter(output,true);
             writer.println("MSG#" + sender + "#" + message);           
             if (writer.checkError()) {

@@ -26,16 +26,14 @@ class ClientConnection extends Thread {
     }
 
     @Override
-    public void run() {
-        System.out.println("handle");
+    public void run() {        
         handleConnection();
     }
 
     public void handleConnection() {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-            String readBuffer = reader.readLine();
-            System.out.println(readBuffer);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input,"UTF-8"));
+            String readBuffer = reader.readLine();         
             while (readBuffer != null) {
                 switch (readBuffer.split("#")[0].toLowerCase()) {
                     case "login":
