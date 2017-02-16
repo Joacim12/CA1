@@ -7,13 +7,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static server.ChatServer.clients;
 import static server.ChatServer.sendCommandToAll;
 
 /**
- * 
+ *
  * @author joaci
  */
 class ClientConnection extends Thread {
@@ -32,15 +30,15 @@ class ClientConnection extends Thread {
     }
 
     @Override
-    public void run() {    
-        handleConnection();           
+    public void run() {
+        handleConnection();
     }
 
-    public void handleConnection()  {
+    public void handleConnection() {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
             String readBuffer;
-            while((readBuffer = reader.readLine()) != null) {
+            while ((readBuffer = reader.readLine()) != null) {
                 switch (readBuffer.split("#")[0].toLowerCase()) {
                     case "login":
                         loginCase(readBuffer);
@@ -59,13 +57,13 @@ class ClientConnection extends Thread {
             } catch (IOException ex1) {
                 ex.printStackTrace();
             }
-                clients.remove(this);
+            clients.remove(this);
         }
     }
 
     private void loginCase(String reader) throws IOException {
         username = reader.split("#")[1];
-        int counter = 0;        
+        int counter = 0;
         for (ClientConnection cc : ChatServer.clients) {
             if (!cc.username.equals(username)) {
                 counter++;
@@ -80,7 +78,7 @@ class ClientConnection extends Thread {
             writer.println(respond);
             writer.flush();
             ChatServer.sendCommandToAll(username, "UPDATE");
-             
+
         } else {
             String respond = "FAIL";
             writer.println(respond);
@@ -89,11 +87,11 @@ class ClientConnection extends Thread {
     }
 
     private void messageCase(String reader) throws IOException {
-        if(reader.split("#")[1].toLowerCase().equals("all")) {           
+        if (reader.split("#")[1].toLowerCase().equals("all")) {
             ChatServer.sendMsgToAll(reader.split("#")[2], username);
-        } else {           
-            ChatServer.sendMsgToUser(reader.split("#")[2], reader.split("#")[1], username);               
-        }        
-    }  
-    
+        } else {
+            ChatServer.sendMsgToUser(reader.split("#")[2], reader.split("#")[1], username);
+        }
+    }
+
 }
