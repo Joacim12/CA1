@@ -74,6 +74,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
         jLabel1.setText("Username");
 
+        jTextField1.setText("1");
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField1KeyPressed(evt);
@@ -85,6 +86,11 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         jLabel4.setText("Port:");
 
         jTextFieldServer.setText("vetterlain.dk");
+        jTextFieldServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldServerActionPerformed(evt);
+            }
+        });
 
         jTextFieldPort.setText("8081");
 
@@ -139,7 +145,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
         jTextAreaChat.setColumns(20);
         jTextAreaChat.setRows(5);
-        jTextAreaChat.setAutoscrolls(false);
+        jTextAreaChat.setEnabled(false);
         jScrollPane1.setViewportView(jTextAreaChat);
 
         jTextFieldMessage.setText("Write something");
@@ -277,6 +283,10 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         sendMessage();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jTextFieldServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldServerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldServerActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -336,6 +346,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         msg = (String) arg;       
+        System.out.println(msg);
         String msgArr[] = msg.split("#");
         switch (msgArr[0].toLowerCase()) {
             case "msg":
@@ -373,6 +384,9 @@ public class JFrame extends javax.swing.JFrame implements Observer {
                 model.removeElement(msgArr[1]);
                 jUserList.setModel(model);
                 break;
+            case "dc":
+                jTabbedPane1.remove(jPanel2);
+                jTabbedPane1.add(jPanelError);
         }
     }
 }

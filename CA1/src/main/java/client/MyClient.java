@@ -11,29 +11,26 @@ import java.net.Socket;
 import java.util.Observable;
 
 public class MyClient extends Observable {
+   
+    private final Socket CLIENTSOCKET;
 
-    private String host;
-    private int port;
-    private Socket clientSocket;
-
-    public MyClient(String host, int port) {
-        this.host = host;
-        this.port = port;
+    public MyClient(String host, int port) {  
+            CLIENTSOCKET = new Socket();
+        try {
+            CLIENTSOCKET.connect(new InetSocketAddress(host, port));
+        } catch (IOException ex) {  
+            System.out.println("exception!");
+        }        
+    }
+    
+    public void sendMessage(String message) throws IOException, InterruptedException  {         
+        OutputStream output = CLIENTSOCKET.getOutputStream();
+        PrintWriter writer = new PrintWriter(output,true);
+        writer.println(message);  
     }
 
-    public void open() throws IOException {
-        clientSocket = new Socket();
-        clientSocket.connect(new InetSocketAddress(host, port));
-    }
-
-    public void sendMessage(String message) throws IOException {
-        OutputStream output = clientSocket.getOutputStream();
-        PrintWriter writer = new PrintWriter(output, true);
-        writer.println(message);
-    }
-
-    public String readMessage() throws IOException {
-        InputStream input = clientSocket.getInputStream();
+    public String readMessage() throws IOException  {
+        InputStream input = CLIENTSOCKET.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         String line;
         while ((line = reader.readLine()) != null) {
@@ -42,6 +39,5 @@ public class MyClient extends Observable {
             return line;
         }
         return line;
-
     }
 }

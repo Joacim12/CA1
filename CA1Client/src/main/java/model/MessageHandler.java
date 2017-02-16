@@ -54,7 +54,7 @@ public class MessageHandler extends Observable {
                 notifyObservers(line);
             }
         } catch (IOException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("ingen forbindelse");    
         }
     }
 }
