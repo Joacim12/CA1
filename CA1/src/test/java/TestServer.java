@@ -6,10 +6,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- *
- * @author zaeemshafiq
- */
 public class TestServer {
 
     public TestServer() {
@@ -29,7 +25,6 @@ public class TestServer {
         client.open();
         client.sendMessage("LOGIN#Lars");
         String msg = client.readMessage();
-        System.out.println(msg);
         assertEquals("OK#Lars", msg);
     }
 
@@ -48,7 +43,6 @@ public class TestServer {
 
         reciever.readMessage();
         String msg = reciever.readMessage();
-        System.out.println(msg);
 
         assertEquals("MSG#Ole#Hej Peter", msg);
     }
@@ -65,20 +59,16 @@ public class TestServer {
         reciever2.open();
         
         sender.sendMessage("LOGIN#Klaus");
-        System.out.println("1");
         reciever.sendMessage("LOGIN#Tulle");
-        System.out.println("2");
-        reciever2.sendMessage("LOGIN#Sam");
-        Thread.sleep(1000);
-        System.out.println(reciever2.readMessage());
-        System.out.println("3");
-        
         System.out.println(reciever.readMessage());
+        reciever2.sendMessage("LOGIN#Sam");
+        System.out.println(reciever2.readMessage());
+        System.out.println(reciever2.readMessage());
+        System.out.println(reciever.readMessage());
+        
         sender.sendMessage("MSG#ALL#Hej allesammen");
-        System.out.println("4");
         
         String msg = reciever.readMessage();
-        System.out.println("5");
         String msg2 = reciever2.readMessage();
         
         assertEquals("MSG#Klaus#Hej allesammen", msg);
