@@ -33,10 +33,5 @@ public class MyClient  {
         InputStream input = CLIENTSOCKET.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));       
         return reader.readLine();
-    }
-    
-    public Socket getSocket(){
-        return CLIENTSOCKET;
-    }
-
+    }   
 }
