@@ -35,11 +35,11 @@ public class MyClient extends Observable {
     public String readMessage() throws IOException {
         InputStream input = clientSocket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            setChanged();
-            notifyObservers(line);
-            return line;
+        String line = null;
+        if ((line = reader.readLine()) != null) {
+//            setChanged();
+//            notifyObservers(line);
+//            return line;
         }
         return line;
 
