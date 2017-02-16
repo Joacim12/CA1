@@ -4,17 +4,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ChatServer {
 
     private boolean running = true;
-    public static List<ClientConnection> clients;
+    public static  List<ClientConnection> clients;
     private static PrintWriter writer;    
 
     public ChatServer() {
-        clients = new ArrayList();
+        clients = new CopyOnWriteArrayList<>();
 
     }
 

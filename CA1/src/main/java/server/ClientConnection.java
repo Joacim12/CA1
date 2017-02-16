@@ -57,7 +57,7 @@ class ClientConnection extends Thread {
             try {
                 sendCommandToAll(username, "DELETE");
             } catch (IOException ex1) {
-                Logger.getLogger(ClientConnection.class.getName()).log(Level.SEVERE, null, ex1);
+                ex.printStackTrace();
             }
                 clients.remove(this);
         }

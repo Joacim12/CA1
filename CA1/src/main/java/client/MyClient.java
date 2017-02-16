@@ -33,7 +33,7 @@ public class MyClient extends Observable{
         try {
             output = clientSocket.getOutputStream();
         } catch (IOException ex) {
-            Logger.getLogger(MyClient.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         PrintWriter writer = new PrintWriter(output, true);
         writer.println(message);        
@@ -46,6 +46,7 @@ public class MyClient extends Observable{
         while((line = reader.readLine()) != null){
             setChanged();
             notifyObservers(line);
+            return line;
         }
         return line;
 
