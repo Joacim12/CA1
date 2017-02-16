@@ -29,6 +29,7 @@ public class TestServer {
         client.open();
         client.sendMessage("LOGIN#Lars");
         String msg = client.readMessage();
+               System.out.println(msg);
         assertEquals("OK#Lars", msg);
     }
 
@@ -42,16 +43,21 @@ public class TestServer {
         
         sender.sendMessage("LOGIN#Ole");
         reciever.sendMessage("LOGIN#Peter");
-        System.out.println("1");
         sender.sendMessage("MSG#Peter#Hej Peter");
-        
-//        reciever.readMessage();
-        reciever.readMessage();
-        String msg = reciever.readMessage();
+        System.out.println(reciever.readMessage());
+        System.out.println(reciever.readMessage());
+        System.out.println("1");
+        String msg = "hej";
+        if(reciever.readMessage() != null) {
+            System.out.println("123");
+         msg= reciever.readMessage();
+            System.out.println(msg);
+        }
+        System.out.println(msg);
         
         assertEquals("MSG#Ole#Hej Peter", msg);
     }
-//    
+    
 //    @Test
 //    public void testMSGToAll() throws InterruptedException, IOException {
 //        MyClient sender = new MyClient("localhost", 8081);

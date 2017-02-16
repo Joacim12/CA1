@@ -9,10 +9,8 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Observable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class MyClient extends Observable{
+public class MyClient extends Observable {
 
     private String host;
     private int port;
@@ -28,22 +26,17 @@ public class MyClient extends Observable{
         clientSocket.connect(new InetSocketAddress(host, port));
     }
 
-    public void sendMessage(String message) {
-        OutputStream output = null;
-        try {
-            output = clientSocket.getOutputStream();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+    public void sendMessage(String message) throws IOException {
+        OutputStream output = clientSocket.getOutputStream();
         PrintWriter writer = new PrintWriter(output, true);
-        writer.println(message);        
+        writer.println(message);
     }
 
     public String readMessage() throws IOException {
         InputStream input = clientSocket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         String line;
-        while((line = reader.readLine()) != null){
+        while ((line = reader.readLine()) != null) {
             setChanged();
             notifyObservers(line);
             return line;

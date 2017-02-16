@@ -10,10 +10,6 @@ import java.net.Socket;
 import static server.ChatServer.clients;
 import static server.ChatServer.sendCommandToAll;
 
-/**
- *
- * @author joaci
- */
 class ClientConnection extends Thread {
 
     public Socket socket = new Socket();
@@ -34,7 +30,7 @@ class ClientConnection extends Thread {
         handleConnection();
     }
 
-    public void handleConnection() {
+    public synchronized void handleConnection() {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
             String readBuffer;
@@ -54,6 +50,7 @@ class ClientConnection extends Thread {
         } catch (IOException ex) {
             try {
                 sendCommandToAll(username, "DELETE");
+                ex.printStackTrace();
             } catch (IOException ex1) {
                 ex.printStackTrace();
             }
@@ -61,7 +58,7 @@ class ClientConnection extends Thread {
         }
     }
 
-    private void loginCase(String reader) throws IOException {
+    private synchronized void loginCase(String reader) throws IOException {
         username = reader.split("#")[1];
         int counter = 0;
         for (ClientConnection cc : ChatServer.clients) {
@@ -86,7 +83,7 @@ class ClientConnection extends Thread {
         }
     }
 
-    private void messageCase(String reader) throws IOException {
+    private synchronized void messageCase(String reader) throws IOException {
         if (reader.split("#")[1].toLowerCase().equals("all")) {
             ChatServer.sendMsgToAll(reader.split("#")[2], username);
         } else {

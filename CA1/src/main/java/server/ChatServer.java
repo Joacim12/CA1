@@ -10,8 +10,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ChatServer {
 
     private boolean running = true;
-    public static  List<ClientConnection> clients;
-    private static PrintWriter writer;    
+    public static List<ClientConnection> clients;
+    private static PrintWriter writer;
 
     public ChatServer() {
         clients = new CopyOnWriteArrayList<>();
@@ -34,7 +34,7 @@ public class ChatServer {
             OutputStream output = client.socket.getOutputStream();
             writer = new PrintWriter(output);
             writer.println(command + "#" + newUser);
-            writer.flush();            
+            writer.flush();
         }
     }
 
@@ -43,7 +43,7 @@ public class ChatServer {
             OutputStream output = client.socket.getOutputStream();
             writer = new PrintWriter(output);
             writer.println("MSG#" + sender + "#" + message);
-            writer.flush();           
+            writer.flush();
             if (writer.checkError()) {
                 sendCommandToAll(client.username, "DELETE");
                 clients.remove(client);
