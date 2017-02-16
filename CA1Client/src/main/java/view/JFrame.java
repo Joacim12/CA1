@@ -139,6 +139,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
         jTextAreaChat.setColumns(20);
         jTextAreaChat.setRows(5);
+        jTextAreaChat.setAutoscrolls(false);
         jScrollPane1.setViewportView(jTextAreaChat);
 
         jTextFieldMessage.setText("Write something");
