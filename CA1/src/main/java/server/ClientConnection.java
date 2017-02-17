@@ -14,9 +14,9 @@ class ClientConnection extends Thread {
 
     public Socket socket = new Socket();
     public String username;
-    private InputStream input;
-    private OutputStream output;
-    private PrintWriter writer;
+    private final InputStream input;
+    private final OutputStream output;
+    private final PrintWriter writer;
 
     public ClientConnection(Socket socket) throws IOException {
         output = socket.getOutputStream();
@@ -30,7 +30,7 @@ class ClientConnection extends Thread {
         handleConnection();
     }
 
-    public synchronized void handleConnection() {
+    public void handleConnection() {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
             String readBuffer;
@@ -58,7 +58,7 @@ class ClientConnection extends Thread {
         }
     }
 
-    private synchronized void loginCase(String reader) throws IOException {
+    private void loginCase(String reader) throws IOException {
         username = reader.split("#")[1];
         int counter = 0;
         for (ClientConnection cc : ChatServer.clients) {
@@ -83,7 +83,7 @@ class ClientConnection extends Thread {
         }
     }
 
-    private synchronized void messageCase(String reader) throws IOException {
+    private void messageCase(String reader) throws IOException {
         if (reader.split("#")[1].toLowerCase().equals("all")) {
             ChatServer.sendMsgToAll(reader.split("#")[2], username);
         } else {
