@@ -44,7 +44,7 @@ public class TestServer {
         String messageWeWant = client.readMessage();        
         assertEquals("MSG#Klaus#Hej allesammen", messageWeWant);       
     }
-}
+}   
 
 
 
@@ -75,7 +75,6 @@ public class TestServer {
 //    @Test
 //    public void testLogin() throws InterruptedException, IOException {
 //        MyClient client = new MyClient("localhost", 8081);
-//        client.open();
 //        client.sendMessage("LOGIN#Lars");
 //        String msg = client.readMessage();
 //        assertEquals("OK#Lars", msg);
@@ -84,32 +83,24 @@ public class TestServer {
 //    @Test
 //    public void testMSGToOne() throws InterruptedException, IOException {
 //        MyClient sender = new MyClient("localhost", 8081);
-//        sender.open();
-//
 //        MyClient reciever = new MyClient("localhost", 8081);
-//        reciever.open();
 //
 //        sender.sendMessage("LOGIN#Ole");
 //        reciever.sendMessage("LOGIN#Peter");
-//        Thread.sleep(250);
+//        System.out.println("123 " + reciever.readMessage());
+//        
 //        sender.sendMessage("MSG#Peter#Hej Peter");
-//
-//        reciever.readMessage();
+//        System.out.println("123 " + reciever.readMessage());
 //        String msg = reciever.readMessage();
-//
+//        System.out.println("123 " + msg);
 //        assertEquals("MSG#Ole#Hej Peter", msg);
 //    }
 //
 //    @Test
 //    public void testMSGToAll() throws InterruptedException, IOException {
 //        MyClient sender = new MyClient("localhost", 8081);
-//        sender.open();
-//
-//        MyClient reciever = new MyClient("localhost", 8081);
-//        reciever.open();
-//        
+//        MyClient reciever = new MyClient("localhost", 8081); 
 //        MyClient reciever2 = new MyClient("localhost", 8081);
-//        reciever2.open();
 //        
 //        sender.sendMessage("LOGIN#Klaus");
 //        reciever.sendMessage("LOGIN#Tulle");
@@ -128,4 +119,4 @@ public class TestServer {
 //        assertEquals("MSG#Klaus#Hej allesammen", msg2);
 //    }
 //}
-
+//
