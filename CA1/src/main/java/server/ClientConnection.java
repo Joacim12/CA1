@@ -12,8 +12,8 @@ import static server.ChatServer.sendCommandToAll;
 
 class ClientConnection extends Thread {
 
-    public Socket socket = new Socket();
-    public String username;
+    private Socket socket = new Socket();
+    private String username;
     private final InputStream input;
     private final OutputStream output;
     private final PrintWriter writer;
@@ -62,12 +62,13 @@ class ClientConnection extends Thread {
     private void loginCase(String reader) throws IOException {
         username = reader.split("#")[1];
         int counter = 0;
+        int clientArraySize = ChatServer.clients.size();
         for (ClientConnection cc : ChatServer.clients) {
             if (!cc.username.equals(username)) {
                 counter++;
             }
         }
-        if (counter == ChatServer.clients.size()) {
+        if (counter == clientArraySize) {
             ChatServer.clients.add(this);
             String respond = "OK";
             for (ClientConnection cc : ChatServer.clients) {
@@ -90,6 +91,14 @@ class ClientConnection extends Thread {
         } else {
             ChatServer.sendMsgToUser(reader.split("#")[2], reader.split("#")[1], username);
         }
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
 }
