@@ -51,53 +51,30 @@ public class TestServer {
 
 
 
+    @Test
+    public void testLogin() throws InterruptedException, IOException {
+        MyClient client = new MyClient("localhost", 8081);
+        client.sendMessage("LOGIN#Lars");
+        String msg = client.readMessage();
+        assertEquals("OK#Lars", msg);
+    }
 
+    @Test
+    public void testMSGToOne() throws InterruptedException, IOException {
+        MyClient sender = new MyClient("localhost", 8081);
+        MyClient reciever = new MyClient("localhost", 8081);
 
+        sender.sendMessage("LOGIN#Ole");
+        reciever.sendMessage("LOGIN#Peter");
+        System.out.println("123 " + reciever.readMessage());
+        Thread.sleep(1000);
+        sender.sendMessage("MSG#Peter#Hej Peter");
+        System.out.println("123 " + reciever.readMessage());
+        String msg = reciever.readMessage();
+        System.out.println("123 " + msg);
+        assertEquals("MSG#Ole#Hej Peter", msg);
+    }
 
-//import server.ChatServer;
-//import client.MyClient;
-//import java.io.IOException;
-//import static org.junit.Assert.assertEquals;
-//import org.junit.BeforeClass;
-//import org.junit.Test;
-//
-//public class TestServer {
-//
-//    public TestServer() {
-//    }
-//
-//    @BeforeClass
-//    public static void setUpClass() {
-//        new Thread(() -> {
-//            ChatServer cs = new ChatServer();
-//            cs.setClientConnection();
-//        }).start();
-//    }
-//
-//    @Test
-//    public void testLogin() throws InterruptedException, IOException {
-//        MyClient client = new MyClient("localhost", 8081);
-//        client.sendMessage("LOGIN#Lars");
-//        String msg = client.readMessage();
-//        assertEquals("OK#Lars", msg);
-//    }
-//
-//    @Test
-//    public void testMSGToOne() throws InterruptedException, IOException {
-//        MyClient sender = new MyClient("localhost", 8081);
-//        MyClient reciever = new MyClient("localhost", 8081);
-//
-//        sender.sendMessage("LOGIN#Ole");
-//        reciever.sendMessage("LOGIN#Peter");
-//        System.out.println("123 " + reciever.readMessage());
-//        
-//        sender.sendMessage("MSG#Peter#Hej Peter");
-//        System.out.println("123 " + reciever.readMessage());
-//        String msg = reciever.readMessage();
-//        System.out.println("123 " + msg);
-//        assertEquals("MSG#Ole#Hej Peter", msg);
-//    }
-//
 //    @Test
 //    public void testMSGToAll() throws InterruptedException, IOException {
 //        MyClient sender = new MyClient("localhost", 8081);
@@ -120,58 +97,4 @@ public class TestServer {
 //        assertEquals("MSG#Klaus#Hej allesammen", msg);
 //        assertEquals("MSG#Klaus#Hej allesammen", msg2);
 //    }
-//}
-//
-
-//    }  
-
-    
-
-    
-    @Test
-    public void testLogin() throws InterruptedException, IOException {
-        MyClient client = new MyClient("localhost", 8081);
-        client.sendMessage("LOGIN#Lars");
-        String msg = client.readMessage();
-        assertEquals("OK#Lars", msg);
-    }
-
-    @Test
-    public void testMSGToOne() throws InterruptedException, IOException {
-        MyClient sender = new MyClient("localhost", 8081);
-        MyClient reciever = new MyClient("localhost", 8081);
-
-        sender.sendMessage("LOGIN#Ole");
-        reciever.sendMessage("LOGIN#Peter");
-        System.out.println("123 " + reciever.readMessage());
-        
-        sender.sendMessage("MSG#Peter#Hej Peter");
-        System.out.println("123 " + reciever.readMessage());
-        String msg = reciever.readMessage();
-        System.out.println("123 " + msg);
-        assertEquals("MSG#Ole#Hej Peter", msg);
-    }
-
-    @Test
-    public void testMSGToAll() throws InterruptedException, IOException {
-        MyClient sender = new MyClient("localhost", 8081);
-        MyClient reciever = new MyClient("localhost", 8081); 
-        MyClient reciever2 = new MyClient("localhost", 8081);
-        
-        sender.sendMessage("LOGIN#Klaus");
-        reciever.sendMessage("LOGIN#Tulle");
-        System.out.println(reciever.readMessage());
-        reciever2.sendMessage("LOGIN#Sam");
-        System.out.println(reciever2.readMessage());
-        System.out.println(reciever2.readMessage());
-        System.out.println(reciever.readMessage());
-        
-        sender.sendMessage("MSG#ALL#Hej allesammen");
-        
-        String msg = reciever.readMessage();
-        String msg2 = reciever2.readMessage();
-        
-        assertEquals("MSG#Klaus#Hej allesammen", msg);
-        assertEquals("MSG#Klaus#Hej allesammen", msg2);
-    }
 }
