@@ -16,7 +16,7 @@ public class TestServer {
             cs.setClientConnection();
         }).start();
     }
-}
+
 
 //    @Test
 //    public void testLogin() throws InterruptedException, IOException {
@@ -44,7 +44,7 @@ public class TestServer {
 //        client.readMessage();
 //        String messageWeWant = client.readMessage();        
 //        assertEquals("MSG#Klaus#Hej allesammen", messageWeWant);       
-<<<<<<< HEAD
+
 //    }
 //}   
 
@@ -122,11 +122,11 @@ public class TestServer {
 //    }
 //}
 //
-=======
+
 //    }  
 
     
-    
+
     
     @Test
     public void testLogin() throws InterruptedException, IOException {
@@ -175,4 +175,3 @@ public class TestServer {
         assertEquals("MSG#Klaus#Hej allesammen", msg2);
     }
 }
->>>>>>> b85d027b821bd93d69580837ed002558913c3643
