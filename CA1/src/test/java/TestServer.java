@@ -3,7 +3,6 @@ import server.ChatServer;
 import client.MyClient;
 import java.io.IOException;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

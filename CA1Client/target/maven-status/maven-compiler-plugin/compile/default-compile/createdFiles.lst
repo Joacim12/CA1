@@ -1,9 +1,11 @@
 control\Controller.class
 model\Connection.class
+model\MessageHandler.class
 view\JFrame$3.class
 view\JFrame$4.class
 view\JFrame$1.class
 view\JFrame$6.class
+view\JFrame$8.class
 view\JFrame$2.class
 view\JFrame$5.class
 view\JFrame.class
