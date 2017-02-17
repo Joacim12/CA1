@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Documentation</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>
+            <h3>Documentation for your tests againts another teams client and server including a description on what went well and what did not</h3>
+            <p>Vi har testet vores klient og server med gruppe 3, hvor det meste gik meget godt, men det viste faktisk også, at der var fejl i vores klient og i gruppe 3's server. Fejlen med vores klient var, at hvis man sendte mange beskeder i træk nåede de ikke frem til serveren, da vores klient lukkede forbindelserne inden den nåede at sende alle beskeder. Denne fejl fik vi efterfølgende rettet, men ellers virkede vores klient fejlfrit. Gruppe 3's server havde også en fejl, som vi opdagede, da vi kørte vores klient op mod deres server: når man loggede ind fik man ikke en liste over de brugere der allerede var logget ind og man fik heller ikke af vide, hvis en ny bruger loggede ind.</p>
+            <h3>A description on how you designed the system</h3>
+            <p>Vi startede med at lave serveren i fælleskab, hvorefter vi uddelte opgaver individuelt. Vi har valgt at lave tre projekter i alt; et med serveren, et med GUI’en og et webprojekt. Grunden til at delte serveren og klienten op i hver deres projekt var så vi havde en “.jar”-fil hver især for både serveren og klienten (så de var uafhængige af hindanen). Vores server opretter en ny tråd hver gang en ny klient opretter forbindelse til den.
+                For at designe vores GUI har vi anvendt Model-View-Controller-arkitekturen (MVC), da det giver et meget bedre overblik. I vores model håndterer vi beskederne, i vores view har vi vores frame og i control er der en forbindelse mellem model og view. Derudover har vi brugt en Observer pattern i form af at JFrame observer på MessageHandler.java, så hver gang der kommer et svar fra serveren, bliver framen notificeret med svaret fra serveren. Til sidst lavede vi tests for at teste om vi fik det forventede response af serveren.</p>
+            <h3>A description on how to use the system</h3>
+            <p>GUI’en virker således, at man starter med at logge ind ved at skrive det brugernavn man ønsker at have. Dette angives som “Username”. Ved “Server:” skal serverens IP-adresse angives, som i vores tilfælde er “vetterlain.dk”, da vi købt vores egen domæne. Porten skal være 8081. Når man har skrevet det brugernavn man ønsker at have, skal man logge ind ved at trykke på den store “Login”-tast. Nu er man logget ind og har adgang til chatten. Nu kan man skrive til andre brugere. Til højre i GUI’en ses en liste over de brugere, som er logget ind. Her kan man vælge den bruger, man ønsker at sende en besked til, hvis man ønsker at sende en privat besked. Hvis man ønsker at sende en besked til alle brugere, skal man vælge “Skriv til alle”. Når man skal skrive en besked, skriver man den i det felt, hvor der står “Write something”. Dernæst sender man beskeden ved at trykke på “Send”-knappen i GUI’en eller trykke på “enter”-knappen på computerens tastatur. Nu vil den besked man har sendt vises i chatten, og hvis man har sendt den til en bestemt bruger, vil man kunne se, at beskeden er privat og navnet på den bruger, man har sendt den til. Sådan kan man blive ved at skrive og sende beskeder og chatten vil blive ved med at udvide sig (således at man altid også kan se de gamle beskeder man har sendt). Hvis man modtager en besked vil den ligeledes blive vist i chatten og man vil også kunne se navnet på den bruger, som har sendt beskeden. Når man skal logge ud, skal man blot lukke vinduet (GUI’en) og man vil automatisk blive logget ud. Når en anden bruger logger ud, vil vedkommende ligeledes blive fjernet fra listen over brugere. Hvis man ønsker at bruge vores system udenom GUI’en, skal man blot bruge de kommandoer, som er angivet i protokollen. F.eks. logger man ind ved at skrive “LOGIN#” efterfulgt af det brugernavn man ønsker at have (f.eks. “LOGIN#Peter”, hvis man ønsker at logge ind som Peter).</p>
+            <h3>A section stating who worked on what in your group</h3>
+            <p>Opgavefordeling:
+                <br>
+                ChatServer: Asger, Joacim, Zaeem
+                <br>
+                GUI: Joacim
+                <br>
+                Client: Asger
+                <br>
+                Tests: Asger, Joacim, Zaeem
+                <br>
+                Documentation: Zaeem
+                <br>
+                Web project: Asger, Joacim, Zaeem
+            </p>
+        </div>
+    </body>
+</html>
