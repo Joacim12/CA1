@@ -37,9 +37,8 @@ public class ChatServer {
     }
 
     public synchronized static void sendMsgToAll(String message, String sender) throws IOException {
-        for (ClientConnection client : clients) {
-            OutputStream output = client.getSocket().getOutputStream();
-            writer = new PrintWriter(output, true);
+        for (ClientConnection client : clients) {            
+            writer = client.writer;
             writer.println("MSG#" + sender + "#" + message);
             if (writer.checkError()) {
                 sendCommandToAll(client.getUsername(), "DELETE");

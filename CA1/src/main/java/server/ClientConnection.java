@@ -16,7 +16,7 @@ class ClientConnection extends Thread {
     private String username;
     private final InputStream input;
     private final OutputStream output;
-    private final PrintWriter writer;
+    final PrintWriter writer;
 
     public ClientConnection(Socket socket) throws IOException {
         output = socket.getOutputStream();
@@ -35,6 +35,7 @@ class ClientConnection extends Thread {
             BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"));
             String readBuffer = reader.readLine();
             while (readBuffer != null) {
+                System.out.println(readBuffer);
                 switch (readBuffer.split("#")[0].toLowerCase()) {
                     case "login":
                         loginCase(readBuffer);
