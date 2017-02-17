@@ -60,7 +60,7 @@ class ClientConnection extends Thread {
         }
     }
 
-    private void loginCase(String reader) throws IOException {
+    private synchronized void loginCase(String reader) throws IOException {
         username = reader.split("#")[1];
         int counter = 0;
         int clientArraySize = ChatServer.clients.size();
@@ -86,7 +86,7 @@ class ClientConnection extends Thread {
         }
     }
 
-    private void messageCase(String reader) throws IOException {
+    private synchronized void messageCase(String reader) throws IOException {
         if (reader.split("#")[1].toLowerCase().equals("all")) {
             ChatServer.sendMsgToAll(reader.split("#")[2], username);
         } else {
