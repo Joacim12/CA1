@@ -34,6 +34,7 @@ class ClientConnection extends Thread {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"));
             String readBuffer = reader.readLine();
+            System.out.println(readBuffer);
             while (readBuffer != null) {
                 System.out.println(readBuffer);
                 switch (readBuffer.split("#")[0].toLowerCase()) {
@@ -60,7 +61,7 @@ class ClientConnection extends Thread {
         }
     }
 
-    private void loginCase(String reader) throws IOException {
+    private  void loginCase(String reader) throws IOException {
         username = reader.split("#")[1];
         int counter = 0;
         int clientArraySize = ChatServer.clients.size();

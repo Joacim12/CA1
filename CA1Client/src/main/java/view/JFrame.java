@@ -18,7 +18,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     String msg = "";
     Boolean first = true;
     List<String> clients;
-    DefaultListModel<String> model;
+    DefaultListModel<String> model = new DefaultListModel<>();
     String userSelected = "ALL";
     String username = "";
 
@@ -27,10 +27,16 @@ public class JFrame extends javax.swing.JFrame implements Observer {
      */
     public JFrame() {
         initComponents();
+        initGui();
+        
+    }
+    
+    public void initGui(){
         jTabbedPane1.remove(jPanel2);
         clients = new ArrayList();
         clients.add("Skriv til alle");
-        model = new DefaultListModel<>();
+        jUserList.removeAll();
+        jUserList.setModel(model);
     }
 
     /**
@@ -59,8 +65,8 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         jScrollPane3 = new javax.swing.JScrollPane();
         jUserList = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
-        jLabelLoginAs = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -138,7 +144,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
                 .addGroup(jPanelErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextFieldPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Login", jPanelError);
@@ -188,7 +194,6 @@ public class JFrame extends javax.swing.JFrame implements Observer {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelLoginAs)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                     .addComponent(jTextFieldMessage))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
@@ -201,13 +206,11 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabelLoginAs))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldMessage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -217,6 +220,8 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
         jTabbedPane1.addTab("Chat", jPanel2);
 
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -225,7 +230,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
         );
 
         pack();
@@ -257,6 +262,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         signIn();
+        initGui();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jUserListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jUserListMouseClicked
@@ -276,6 +282,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             signIn();
+            
         }
     }//GEN-LAST:event_jTextField1KeyPressed
 
@@ -329,7 +336,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelError;
-    private javax.swing.JLabel jLabelLoginAs;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelError;
     private javax.swing.JScrollPane jScrollPane1;
@@ -344,8 +351,8 @@ public class JFrame extends javax.swing.JFrame implements Observer {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void update(Observable o, Object arg) {
-        msg = (String) arg;       
+    public void update(Observable o, Object line) {
+        msg = (String) line;   
         System.out.println(msg);
         String msgArr[] = msg.split("#");
         switch (msgArr[0].toLowerCase()) {
@@ -358,11 +365,11 @@ public class JFrame extends javax.swing.JFrame implements Observer {
                 jTabbedPane1.remove(jPanelError);
                 jTabbedPane1.add(jPanel2);
                 username = msgArr[msgArr.length - 1];
-                jTabbedPane1.setTitleAt(jTabbedPane1.getSelectedIndex(), username);
-                jLabelLoginAs.setText(username);
+                jTabbedPane1.setTitleAt(jTabbedPane1.getSelectedIndex(), username);                
                 for (int i = 1; i < msgArr.length; i++) {
                     clients.add(msgArr[i]);
                 }
+                model.removeAllElements();
                 clients.forEach((client) -> {
                     model.addElement(client);
                 });
