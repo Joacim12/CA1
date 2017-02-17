@@ -19,8 +19,7 @@ public class MyClient extends Thread {
             CLIENTSOCKET.connect(new InetSocketAddress(host, port));
             writer = new PrintWriter(CLIENTSOCKET.getOutputStream(), true);
         } catch (IOException ex) {
-            System.out.println("exception!");
-            throw new RuntimeException(ex);
+            System.out.println("exception!");      
         }
         
     }

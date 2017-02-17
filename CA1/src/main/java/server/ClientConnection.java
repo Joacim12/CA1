@@ -34,6 +34,7 @@ class ClientConnection extends Thread {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"));
             String readBuffer = reader.readLine();
+            System.out.println(readBuffer);
             while (readBuffer != null) {
                 System.out.println(readBuffer);
                 switch (readBuffer.split("#")[0].toLowerCase()) {

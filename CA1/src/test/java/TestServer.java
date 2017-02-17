@@ -1,9 +1,6 @@
-
 import server.ChatServer;
 import client.MyClient;
-import static io.restassured.RestAssured.when;
 import java.io.IOException;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
@@ -28,7 +25,7 @@ public class TestServer {
         assertEquals("OK#Lars", msg);
     }
 
-    @Test
+
     public void testLoginFail() throws IOException, InterruptedException {
         MyClient client1 = new MyClient("localhost", 8081);
         MyClient client2 = new MyClient("localhost", 8081);
@@ -80,26 +77,39 @@ public class TestServer {
 //    }
 //}
 
-//import server.ChatServer;
-//import client.MyClient;
-//import java.io.IOException;
-//import static org.junit.Assert.assertEquals;
-//import org.junit.BeforeClass;
-//import org.junit.Test;
-//
-//public class TestServer {
-//
-//    public TestServer() {
+//    @Test
+//    public void testLogin() throws InterruptedException, IOException {
+//        MyClient client = new MyClient("localhost", 8081);        
+//        client.sendMessage("LOGIN#Lars");
+//        String msg = client.readMessage();
+//        assertEquals("OK#Lars", msg);
 //    }
 //
-//    @BeforeClass
-//    public static void setUpClass() {
-//        new Thread(() -> {
-//            ChatServer cs = new ChatServer();
-//            cs.setClientConnection();
-//        }).start();
+//    @Test
+//    public void testMSGToOne() throws InterruptedException, IOException, Exception {      
+//       MyClient client = new MyClient("localhost",8081); 
+//       client.sendMessage("LOGIN#Peter\nMSG#Peter#Hej Peter");           
+//       client.readMessage();       
+//       client.readMessage();
+//       String messageWeWant = client.readMessage();    
+//       assertTrue(messageWeWant.equals("MSG#Peter#Hej Peter"));        
 //    }
-//
+//    
+//    @Test
+//    public void testMSGToAll() throws InterruptedException, IOException {
+//        MyClient client = new MyClient("localhost", 8081);       
+//        client.sendMessage("LOGIN#Klaus\nMSG#ALL#Hej allesammen");
+//        client.readMessage();
+//        client.readMessage();
+//        String messageWeWant = client.readMessage();        
+//        assertEquals("MSG#Klaus#Hej allesammen", messageWeWant);       
+
+//    }
+//}   
+
+
+
+
 //    @Test
 //    public void testLogin() throws InterruptedException, IOException {
 //        MyClient client = new MyClient("localhost", 8081);
@@ -116,14 +126,15 @@ public class TestServer {
 //        sender.sendMessage("LOGIN#Ole");
 //        reciever.sendMessage("LOGIN#Peter");
 //        System.out.println("123 " + reciever.readMessage());
-//        
+//        Thread.sleep(1000);
 //        sender.sendMessage("MSG#Peter#Hej Peter");
 //        System.out.println("123 " + reciever.readMessage());
 //        String msg = reciever.readMessage();
 //        System.out.println("123 " + msg);
 //        assertEquals("MSG#Ole#Hej Peter", msg);
 //    }
-//
+
+
 //    @Test
 //    public void testMSGToAll() throws InterruptedException, IOException {
 //        MyClient sender = new MyClient("localhost", 8081);
@@ -146,6 +157,7 @@ public class TestServer {
 //        assertEquals("MSG#Klaus#Hej allesammen", msg);
 //        assertEquals("MSG#Klaus#Hej allesammen", msg2);
 //    }
+
 //}
 //
 //    }  
