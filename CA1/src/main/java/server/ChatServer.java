@@ -29,7 +29,7 @@ public class ChatServer {
 
     public synchronized static void sendCommandToAll(String newUser, String command) throws IOException {
         for (ClientConnection client : clients) {
-            OutputStream output = client.socket.getOutputStream();
+            OutputStream output = client.getSocket().getOutputStream();
             writer = new PrintWriter(output);
             writer.println(command + "#" + newUser);
             writer.flush();
@@ -38,11 +38,11 @@ public class ChatServer {
 
     public synchronized static void sendMsgToAll(String message, String sender) throws IOException {
         for (ClientConnection client : clients) {
-            OutputStream output = client.socket.getOutputStream();
+            OutputStream output = client.getSocket().getOutputStream();
             writer = new PrintWriter(output, true);
             writer.println("MSG#" + sender + "#" + message);
             if (writer.checkError()) {
-                sendCommandToAll(client.username, "DELETE");
+                sendCommandToAll(client.getUsername(), "DELETE");
                 clients.remove(client);
             }
         }
@@ -50,8 +50,8 @@ public class ChatServer {
 
     public synchronized static void sendMsgToUser(String message, String reciever, String sender) throws IOException {
         for (ClientConnection client : clients) {
-            if (client.username.equals(reciever)) {
-                OutputStream output = client.socket.getOutputStream();
+            if (client.getUsername().equals(reciever)) {
+                OutputStream output = client.getSocket().getOutputStream();
                 writer = new PrintWriter(output);
                 writer.println("MSG#" + sender + "#" + message);
                 writer.flush();
