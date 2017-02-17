@@ -32,9 +32,9 @@ class ClientConnection extends Thread {
 
     public void handleConnection() {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-            String readBuffer;
-            while ((readBuffer = reader.readLine()) != null) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"));
+            String readBuffer = reader.readLine();
+            while (readBuffer != null) {
                 switch (readBuffer.split("#")[0].toLowerCase()) {
                     case "login":
                         loginCase(readBuffer);
@@ -46,13 +46,14 @@ class ClientConnection extends Thread {
                         System.out.println(readBuffer);
                         break;
                 }
+                readBuffer = reader.readLine();
             }
         } catch (IOException ex) {
             try {
                 sendCommandToAll(username, "DELETE");
-                ex.printStackTrace();
+                System.out.println("delete exception");
             } catch (IOException ex1) {
-                ex.printStackTrace();
+                System.out.println("delete exception");
             }
             clients.remove(this);
         }
