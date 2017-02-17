@@ -57,7 +57,7 @@ public class ChatServer {
             }
         }
     }
-
+    
     public void setRunning(boolean running) {
         this.running = running;
     }
