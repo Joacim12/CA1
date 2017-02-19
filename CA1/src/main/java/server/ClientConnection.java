@@ -33,10 +33,8 @@ class ClientConnection extends Thread {
     public void handleConnection() {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"));
-            String readBuffer = reader.readLine();
-            System.out.println(readBuffer);
-            while (readBuffer != null) {
-                System.out.println(readBuffer);
+            String readBuffer = reader.readLine();            
+            while (readBuffer != null) {                
                 switch (readBuffer.split("#")[0].toLowerCase()) {
                     case "login":
                         loginCase(readBuffer);

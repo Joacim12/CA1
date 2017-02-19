@@ -281,8 +281,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            signIn();
-            
+            signIn();            
         }
     }//GEN-LAST:event_jTextField1KeyPressed
 
@@ -352,8 +351,7 @@ public class JFrame extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object line) {
-        msg = (String) line;   
-        System.out.println(msg);
+        msg = (String) line;           
         String msgArr[] = msg.split("#");
         switch (msgArr[0].toLowerCase()) {
             case "msg":

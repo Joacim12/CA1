@@ -20,20 +20,18 @@ public class TestServer {
     public void testLogin() throws InterruptedException, IOException {
         MyClient client = new MyClient("localhost", 8081);
         client.sendMessage("LOGIN#Lars");
-        String msg = client.readMessage();
-        System.out.println(msg);
+        String msg = client.readMessage();      
         assertEquals("OK#Lars", msg);
     }
 
-
+    @Test
     public void testLoginFail() throws IOException, InterruptedException {
         MyClient client1 = new MyClient("localhost", 8081);
         MyClient client2 = new MyClient("localhost", 8081);
         client1.sendMessage("LOGIN#Jens");
         Thread.sleep(100);
         client2.sendMessage("LOGIN#Jens");
-        String msg = client2.readMessage();
-        System.out.println(msg);
+        String msg = client2.readMessage();      
         assertEquals("FAIL", msg);
     }
 
